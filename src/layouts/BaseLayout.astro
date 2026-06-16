@@ -1,0 +1,83 @@
+---
+import '../styles/global.css'
+import '../styles/prose.css'
+
+export interface Props {
+  title: string
+  description?: string
+  canonical?: string
+  type?: 'website' | 'article'
+  image?: string
+  publishedTime?: string
+  tags?: string[]
+}
+
+const { title, description, canonical, type = 'website', image, publishedTime, tags } = Astro.props
+const siteName = 'Earn With Hermes'
+const siteUrl = 'https://earnwithhermes.com'
+
+// Avoid "Earn With Hermes | Earn With Hermes" duplication on the homepage
+const pageTitle = title === siteName ? siteName : `${title} | ${siteName}`
+
+// Use provided canonical or build from current URL
+const canonicalUrl = canonical || (Astro.url ? siteUrl + Astro.url.pathname : siteUrl)
+const ogImage = image || `${siteUrl}/favicon.svg`
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Autonomics" />
+    <title>{pageTitle}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta name="astro-view-transitions-enabled" content="true" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description || siteName} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:image" content={ogImage} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    {description && <meta name="twitter:description" content={description} />}
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': type === 'article' ? 'Article' : 'WebSite',
+      name: title,
+      headline: title,
+      description: description,
+      url: canonicalUrl,
+      ...(type === 'article' && publishedTime ? { datePublished: publishedTime } : {}),
+      ...(type === 'article' && tags ? { keywords: tags.join(', ') } : {}),
+      publisher: {
+        '@type': 'Organization',
+        name: 'Autonomics',
+        url: 'https://autonomics.build',
+      },
+    })} />
+
+    <!-- Restore theme before paint to prevent flash -->
+    <script is:inline>
+      (function() {
+        const stored = localStorage.getItem('theme')
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (stored === 'dark' || (!stored && prefersDark)) {
+          document.documentElement.classList.add('dark')
+        }
+      })()
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

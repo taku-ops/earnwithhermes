@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Navbar from '../components/Navbar.svelte'
+import ScrollProgress from '../components/ScrollProgress.svelte'
+import Footer from '../components/Footer.svelte'
+---
+
+<BaseLayout title="Privacy Policy" description="Privacy Policy for Earn With Hermes">
+  <Navbar client:load />
+
+  <article class="max-w-3xl mx-auto px-6 pt-12 pb-20">
+    <nav class="flex items-center gap-2 text-xs text-surface-600 mb-6">
+      <a href="/" class="hover:text-surface-400 transition-colors">Home</a>
+      <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+      <span class="text-surface-400">Privacy Policy</span>
+    </nav>
+
+    <h1 class="text-3xl font-extrabold tracking-tight mb-8">Privacy Policy</h1>
+
+    <div class="prose-policy max-w-none">
+      <h2>Who we are</h2>
+      <p><strong>Earn With Hermes</strong> (earnwithhermes.com) publishes tutorials, news, and opinions on making money with Hermes Agent. Part of Autonomics.</p>
+
+      <h2>What data we collect</h2>
+
+      <h3>Information you provide</h3>
+      <ul>
+        <li>Email address (if you subscribe to our newsletter or contact us)</li>
+        <li>Any information you submit via forms or email</li>
+      </ul>
+
+      <h3>Information collected automatically</h3>
+      <ul>
+        <li><strong>Basic analytics:</strong> Page views, referrer, browser type — anonymized, not tied to your identity</li>
+        <li><strong>Cookies:</strong> None used for tracking. Minimal session cookies may be used for basic site function.</li>
+      </ul>
+
+      <h2>How we use your data</h2>
+      <ul>
+        <li>To send you content you've subscribed to (newsletter)</li>
+        <li>To improve the site based on aggregate usage patterns</li>
+        <li>To respond to your inquiries</li>
+      </ul>
+      <p>We do <strong>not</strong> sell, rent, or share your personal data with third parties for their marketing purposes.</p>
+
+      <h2>Third-party services</h2>
+      <ul>
+        <li><strong>Brevo</strong> processes newsletter subscriptions (see <a href="https://www.brevo.com/legal/privacypolicy/" target="_blank" rel="noopener noreferrer">Brevo's Privacy Policy</a>)</li>
+      </ul>
+
+      <h2>Data retention</h2>
+      <p>We keep your email only as long as you remain subscribed. You can unsubscribe at any time — every email includes an unsubscribe link.</p>
+
+      <h2>Your rights</h2>
+      <p>Depending on your location, you may have rights to:</p>
+      <ul>
+        <li>Access the data we hold about you</li>
+        <li>Request deletion of your data</li>
+        <li>Opt out of communications</li>
+        <li>File a complaint with your local data protection authority</li>
+      </ul>
+      <p>To exercise any of these, contact us at <strong>connect@autonomics.build</strong>.</p>
+
+      <h2>Changes to this policy</h2>
+      <p>We may update this policy. Changes will be posted here with an updated date.</p>
+      <p><em>Last updated: June 5, 2026</em></p>
+    </div>
+  </article>
+
+  <Footer client:load />
+  <ScrollProgress client:load />
+</BaseLayout>

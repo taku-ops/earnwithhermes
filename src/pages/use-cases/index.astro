@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import Navbar from '../../components/Navbar.svelte'
+import StorySearch from '../../components/StorySearch.svelte'
+import NewsletterForm from '../../components/NewsletterForm.svelte'
+import ScrollProgress from '../../components/ScrollProgress.svelte'
+import Footer from '../../components/Footer.svelte'
+import { getCollection } from 'astro:content'
+
+const useCases = await getCollection('useCases', ({ data }) => !data.draft)
+useCases.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+---
+
+<BaseLayout title="Use Cases" description="Real stories of people earning money with Hermes Agent — curated from the community">
+  <Navbar client:load />
+
+  <!-- Hero -->
+  <section class="max-w-6xl mx-auto px-6 pt-16 pb-12">
+    <div class="flex items-center gap-2 text-xs text-brand-400 font-medium mb-4">
+      <span class="w-1.5 h-1.5 rounded-full bg-brand-400" />
+      <span>{useCases.length} stories</span>
+    </div>
+    <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight mb-4">Opportunity Board</h1>
+    <p class="text-surface-400 max-w-2xl leading-relaxed">
+      Find inspiration from real stories of people earning money with Hermes Agent — curated from Discord, X/Twitter, GitHub, YouTube, Reddit, blogs, and podcasts.
+    </p>
+  </section>
+
+  <!-- Search & Stories -->
+  <section class="max-w-6xl mx-auto px-6 pb-20">
+    <StorySearch client:load stories={useCases.map(uc => ({
+      id: uc.id,
+      title: uc.data.title,
+      description: uc.data.description,
+      tags: uc.data.tags,
+      categories: uc.data.categories,
+      author: uc.data.author,
+      income: uc.data.income,
+      storySource: uc.data.storySource,
+    }))} />
+  </section>
+
+  <!-- Newsletter CTA -->
+  <section class="border-t border-surface-700/20 bg-surface-900/[0.03] dark:border-white/5 dark:bg-white/[0.02]">
+    <div class="max-w-6xl mx-auto px-6 py-16 text-center">
+      <h2 class="text-2xl font-bold mb-3">Get New Stories Delivered</h2>
+      <p class="text-surface-500 mb-8 max-w-md mx-auto">
+        New use cases, tutorials, and money-making strategies. No spam. Unsubscribe anytime.
+      </p>
+      <div class="max-w-md mx-auto">
+        <NewsletterForm client:load />
+      </div>
+    </div>
+  </section>
+
+  <Footer client:load />
+  <ScrollProgress client:load />
+</BaseLayout>

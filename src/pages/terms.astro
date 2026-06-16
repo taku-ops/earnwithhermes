@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Navbar from '../components/Navbar.svelte'
+import ScrollProgress from '../components/ScrollProgress.svelte'
+import Footer from '../components/Footer.svelte'
+---
+
+<BaseLayout title="Terms of Service" description="Terms of Service for Earn With Hermes">
+  <Navbar client:load />
+
+  <article class="max-w-3xl mx-auto px-6 pt-12 pb-20">
+    <nav class="flex items-center gap-2 text-xs text-surface-600 mb-6">
+      <a href="/" class="hover:text-surface-400 transition-colors">Home</a>
+      <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+      <span class="text-surface-400">Terms of Service</span>
+    </nav>
+
+    <h1 class="text-3xl font-extrabold tracking-tight mb-8">Terms of Service</h1>
+
+    <div class="prose-policy max-w-none">
+      <h2>Acceptance</h2>
+      <p>By using earnwithhermes.com (the "Site"), you agree to these Terms of Service. If you do not agree, do not use the Site.</p>
+
+      <h2>Content</h2>
+      <p>All content on this Site is for <strong>informational and educational purposes only</strong>. It does not constitute financial, legal, or professional advice.</p>
+      <p>While we strive for accuracy, we make no guarantees about the completeness, reliability, or currency of any content. Any reliance you place on the material is at your own risk.</p>
+
+      <h2>Intellectual Property</h2>
+      <p>Unless otherwise noted, all content on this Site — including text, graphics, logos, and code — is our property or used with permission. You may not reproduce, distribute, or create derivative works without prior written consent.</p>
+
+      <h2>Purchases &amp; Refunds</h2>
+      <p>When we offer products or services for sale:</p>
+      <ul>
+        <li>Payment is processed through third-party providers (Stripe, Gumroad, etc.)</li>
+        <li>All sales are final unless otherwise stated at the time of purchase</li>
+        <li>Digital products (blueprints, templates, etc.) cannot be returned once downloaded</li>
+      </ul>
+
+      <h2>External Links</h2>
+      <p>The Site may link to third-party websites. We have no control over and assume no responsibility for their content, privacy practices, or terms.</p>
+
+      <h2>Limitation of Liability</h2>
+      <p>Earn With Hermes and its operator shall not be liable for any direct, indirect, incidental, or consequential damages arising from your use of the Site or reliance on its content.</p>
+
+      <h2>Changes</h2>
+      <p>We reserve the right to update these terms at any time. Changes will be posted here with an updated date.</p>
+
+      <h2>Contact</h2>
+      <p>For questions about these terms: <strong>connect@autonomics.build</strong></p>
+      <p><em>Last updated: June 5, 2026</em></p>
+    </div>
+  </article>
+
+  <Footer client:load />
+  <ScrollProgress client:load />
+</BaseLayout>

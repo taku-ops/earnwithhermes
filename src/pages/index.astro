@@ -1,0 +1,133 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Navbar from '../components/Navbar.svelte'
+import StatCounter from '../components/StatCounter.svelte'
+import UseCaseCard from '../components/UseCaseCard.svelte'
+import NewsletterForm from '../components/NewsletterForm.svelte'
+import ScrollProgress from '../components/ScrollProgress.svelte'
+import Footer from '../components/Footer.svelte'
+import { getCollection } from 'astro:content'
+
+const useCases = await getCollection('useCases', ({ data }) => !data.draft)
+const articles = await getCollection('articles', ({ data }) => !data.draft)
+
+// Sort by date, newest first
+useCases.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+articles.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+
+// Featured: specific stories
+const featuredSlugs = ['tiktok-factory', 'copy-trading-bot', 'weather-trading-bot']
+const featuredUseCases = featuredSlugs.map(slug => useCases.find(uc => uc.id === slug)).filter(Boolean)
+const latestArticle = articles[0]
+---
+
+<BaseLayout title="Earn With Hermes" description="Blueprints, tutorials, and real stories of people generating autonomous income with Hermes Agent.">
+  <Navbar client:load />
+
+  <!-- Hero -->
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-brand-950/10 to-transparent dark:from-brand-950/30 dark:to-transparent pointer-events-none" />
+    <div class="max-w-6xl mx-auto px-6 pt-24 pb-20 text-center relative">
+      <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight leading-none mb-6">
+        Turn Prompts
+        <br />
+        <span class="text-gradient">Into Paychecks</span>
+      </h1>
+      <p class="text-lg text-surface-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+        Blueprints, tutorials, and real stories of people generating autonomous income
+        with Hermes Agent.
+      </p>
+      <div class="flex items-center justify-center gap-4 flex-wrap">
+        <a href="/use-cases/" class="proximity-btn relative px-8 py-3.5 rounded-xl bg-brand-600 dark:bg-brand-500 hover:bg-brand-700 dark:hover:bg-brand-400 text-white dark:text-black font-bold text-base transition-all duration-200 shadow-lg shadow-brand-500/20">
+          Browse Use Cases
+        </a>
+        <a href="/learn/" class="proximity-btn relative px-8 py-3.5 rounded-xl border border-surface-700 hover:border-surface-500 text-surface-300 hover:text-gray-900 dark:hover:text-white font-medium text-base transition-all duration-200">
+          Learn Hermes →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Bar -->
+  <section class="border-y border-surface-700/20 bg-surface-900/[0.03] dark:border-white/5 dark:bg-white/[0.02]">
+    <div class="max-w-6xl mx-auto px-6 py-10">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <StatCounter client:load value="116%" label="Trading Return" source="weather bot, 48h" />
+        <StatCounter client:load value="90%" label="Cost Reduction" source="token cost cut story" />
+        <StatCounter client:load value="30+" label="Hours Saved/Wk" source="TikTok factory story" />
+        <StatCounter client:load value={String(useCases.length)} label="Use Cases" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Use Cases -->
+  <section class="max-w-6xl mx-auto px-6 py-20">
+    <div class="flex items-center justify-between mb-10">
+      <div>
+        <h2 class="text-2xl md:text-3xl font-bold">Real Stories. Real Money.</h2>
+        <p class="text-surface-500 mt-2">People are earning with Hermes Agent right now. Here's how.</p>
+      </div>
+      <a href="/use-cases/" class="text-sm text-brand-400 hover:text-brand-300 font-medium transition-colors">
+        View all {useCases.length} →
+      </a>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-5">
+      {featuredUseCases.map((uc) => (
+        <UseCaseCard
+          client:load
+          href={`/use-cases/${uc.id}/`}
+          title={uc.data.title}
+          summary={uc.data.description}
+          />
+      ))}
+    </div>
+  </section>
+
+  <!-- Latest Article -->
+  {latestArticle && (
+    <section class="max-w-6xl mx-auto px-6 pb-20">
+      <div class="rounded-2xl bg-gradient-to-br from-brand-950/10 to-surface-900/30 dark:from-brand-950/30 dark:to-surface-900/50 border border-surface-800 p-8 md:p-10">
+        <div class="flex items-center gap-3 mb-4">
+          <time class="text-xs text-surface-500">{new Date(latestArticle.data.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</time>
+          <span class="w-1 h-1 rounded-full bg-surface-700" />
+          <span class="text-xs text-brand-400 font-medium">{latestArticle.data.categories?.[0] || 'Article'}</span>
+        </div>
+        <h2 class="text-xl md:text-2xl font-bold mb-3">
+          <a href={`/learn/${latestArticle.id}/`} class="hover-underline hover:text-brand-400 transition-colors">
+            {latestArticle.data.title}
+          </a>
+        </h2>
+        <p class="text-surface-400 mb-6 max-w-2xl">
+          {latestArticle.data.description}
+        </p>
+        <div class="flex items-center gap-3 flex-wrap">
+          <a href={`/learn/${latestArticle.id}/`} class="proximity-btn relative px-5 py-2.5 rounded-xl bg-brand-600 dark:bg-brand-500 hover:bg-brand-700 dark:hover:bg-brand-400 text-white dark:text-black font-semibold text-sm transition-all duration-200">
+            Read the Guide →
+          </a>
+          <div class="flex gap-2">
+            {latestArticle.data.tags?.slice(0, 3).map((tag: string) => (
+              <span class="px-3 py-1.5 rounded-lg bg-surface-800 text-surface-400 text-xs">{tag}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Newsletter CTA -->
+  <section class="border-t border-surface-700/20 bg-surface-900/[0.03] dark:border-white/5 dark:bg-white/[0.02]">
+    <div class="max-w-6xl mx-auto px-6 py-16 text-center">
+      <h2 class="text-2xl font-bold mb-3">Stay Updated</h2>
+      <p class="text-surface-500 mb-8 max-w-md mx-auto">
+        New use cases, tutorials, and money-making strategies. No spam. Unsubscribe anytime.
+      </p>
+      <div class="max-w-md mx-auto">
+        <NewsletterForm client:load />
+      </div>
+    </div>
+  </section>
+
+  <Footer client:load />
+  <ScrollProgress client:load />
+</BaseLayout>
