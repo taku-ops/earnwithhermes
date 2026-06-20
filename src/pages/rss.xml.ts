@@ -27,7 +27,7 @@ export async function GET(context: any) {
 
   return rss({
     title: 'Earn With Hermes',
-    description: 'Blueprints, tutorials, and real stories of people generating autonomous income with Hermes Agent.',
+    description: 'Blueprints, tutorials, and real stories of people making money with Hermes Agent.',
     site: context.site || 'https://earnwithhermes.com',
     items: items.map((item) => ({
       title: item.title,
