@@ -5,6 +5,7 @@ draft: false
 description: "A developer used an AI agent to turn a coffee shop idea into a working demo in 40 minutes. Then he walked into shops with a real app to show instead of slides. The first owner said yes in five minutes."
 author: "/u/timhartmann7"
 storySource: "Reddit r/AI_Agents"
+categories: ["Building Products"]
 ---
 
 There's a post on r/AI_Agents that makes a really good point about selling software. The short version: a developer used Claude Code to build a coffee shop app. The AI produced a working demo in about 40 minutes. Core build took three days. He deployed it to his own server and set up custom subdomains for each shop he was targeting, with their logo and name already on it.
